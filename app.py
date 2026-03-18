@@ -13,7 +13,7 @@ logging.basicConfig(filename='/home/ec2-user/EventMingle/backend/app.log', level
 
 app = Flask(__name__, template_folder="../frontend/templates", static_folder="../frontend/static")
 # Updated: Set secret key and session persistence
-app.secret_key = "seckey12345"  # Replace with a secure key
+app.secret_key = "****"  # Replace with a secure key
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour session lifetime
 
