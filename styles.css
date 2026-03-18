@@ -1,0 +1,16 @@
+/* Custom styles to enhance Tailwind */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.fade-in {
+    transition: opacity 0.5s ease-in;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.opacity-100 {
+    opacity: 1;
+}

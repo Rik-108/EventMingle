@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventMingle - Attendee Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<!-- Updated: Beautified with enhanced styling and spacing -->
+<body class="bg-cover bg-center min-h-screen" style="background-image: url('/static/images/background.png');">
+    <div class="container mx-auto p-6">
+        <header class="mb-8">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Attendee Dashboard</h2>
+            <a href="/logout" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300">Logout</a>
+        </header>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Upcoming Events</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for event in events %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">
+                            {{ event.title }}<br>
+                            <span class="text-gray-600">{{ event.description }}</span><br>
+                            <span class="font-medium">Date:</span> {{ event.date }}
+                        </div>
+                        <div class="mt-2 flex space-x-2">
+                            <form action="/rsvp/{{ event.event_id }}" method="POST" class="inline-flex">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">RSVP</button>
+                            </form>
+                            <form action="/mark_attendance/{{ event.event_id }}" method="POST" class="inline-flex">
+                                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300">Mark Attendance</button>
+                            </form>
+                            <a href="/feedback/{{ event.event_id }}" class="text-blue-500 hover:underline mt-2 inline-block">Submit Feedback</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

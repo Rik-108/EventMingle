@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventMingle - Organizer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<!-- Updated: Beautified with enhanced styling and spacing -->
+<body class="bg-cover bg-center min-h-screen" style="background-image: url('/static/images/background.png');">
+    <div class="container mx-auto p-6">
+        <header class="mb-8">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Organizer Dashboard</h2>
+            <a href="/logout" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300">Logout</a>
+        </header>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Create New Event</h3>
+            <form method="POST" action="/organizer_dashboard" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 font-medium">Event Title</label>
+                    <input type="text" name="title" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-medium">Description</label>
+                    <textarea name="description" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-medium">Date</label>
+                    <input type="date" name="date" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+                <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">Create Event</button>
+            </form>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Your Events</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for event in events %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">
+                            {{ event.title }}<br>
+                            <span class="text-gray-600">{{ event.description }}</span><br>
+                            <span class="font-medium">Date:</span> {{ event.date }}
+                        </div>
+                        <form action="/send_update/{{ event.event_id }}" method="POST" class="mt-2 inline-flex items-center space-x-2">
+                            <input type="text" name="update_message" placeholder="Enter update" class="p-2 border border-gray-300 rounded-md">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">Send Update</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">RSVPs</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for rsvp in rsvps %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">{{ rsvp.email }} - Event {{ rsvp.event_id }} ({{ rsvp.timestamp }})</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Attendance</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for att in attendance %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">{{ att.email }} - Event {{ att.event_id }} ({{ att.timestamp }})</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Feedback</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for fb in feedback %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">{{ fb.email }} - Event {{ fb.event_id }}: {{ fb.feedback }} ({{ fb.timestamp }})</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

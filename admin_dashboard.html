@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventMingle - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<!-- Updated: Beautified with enhanced styling and spacing -->
+<body class="bg-cover bg-center min-h-screen" style="background-image: url('/static/images/background.png');">
+    <div class="container mx-auto p-6">
+        <header class="mb-8">
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Admin Dashboard</h2>
+            <a href="/logout" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300">Logout</a>
+        </header>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Users</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for user in users %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">
+                            <span class="font-medium">Name:</span> {{ user.name }}<br>
+                            <span class="font-medium">Email:</span> {{ user.email }}<br>
+                            <span class="font-medium">Role:</span> {{ user.role }}
+                        </div>
+                        <form action="/update_role/{{ user.email }}" method="POST" class="mt-2 inline-flex items-center space-x-2">
+                            <select name="role" class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="attendee" {% if user.role == 'attendee' %}selected{% endif %}>Attendee</option>
+                                <option value="organizer" {% if user.role == 'organizer' %}selected{% endif %}>Organizer</option>
+                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">Update Role</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Events</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for event in events %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">
+                            {{ event.title }}<br>
+                            <span class="text-gray-600">{{ event.description }}</span><br>
+                            <span class="font-medium">Date:</span> {{ event.date }}<br>
+                            <span class="font-medium">Organizer:</span> {{ event.organizer }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Communications</h3>
+            <ul class="list-disc pl-6 space-y-4">
+                {% for comm in communications %}
+                    <li class="p-4 border-b border-gray-200">
+                        <div class="text-lg">
+                            {{ comm.type }} - Event {{ comm.event_id }} by {{ comm.email }}: {{ comm.message }} ({{ comm.timestamp }})
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="bg-white bg-opacity-90 p-6 rounded-lg shadow-lg mt-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Participation Trends</h3>
+            <div class="space-y-2 text-lg">
+                <!-- [UPDATE] Replaced aggregate counts with total counts from app.py -->
+                <p>Total RSVP Count: <span class="font-medium">{{ total_rsvp_count }}</span></p>
+                <p>Total Attendance Count: <span class="font-medium">{{ total_attendance_count }}</span></p>
+                <p>Total Feedback Count: <span class="font-medium">{{ total_feedback_count }}</span></p>
+                <!-- [UPDATE] Added event-wise trend breakdown -->
+                <h4 class="text-xl font-medium mt-4">Event-wise Trends</h4>
+                <ul class="list-disc pl-6 space-y-2">
+                    {% for event_id, data in trends.items() %}
+                        <li class="p-2 border-b border-gray-200">
+                            Event {{ event_id }}:
+                            <span class="font-medium">RSVs: {{ data.rsvps }}</span>,
+                            <span class="font-medium">Attendance: {{ data.attendance }}</span>,
+                            <span class="font-medium">Feedback: {{ data.feedback }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

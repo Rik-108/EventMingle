@@ -1,0 +1,3 @@
+ssh -i "C:\Users\asus zb\.ssh\EventMingleKey.pem" ec2-user@52.90.84.21
+python3 EventMingle/backend/app.py
+http://52.90.84.21:5000
