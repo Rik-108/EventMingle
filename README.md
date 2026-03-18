@@ -65,6 +65,3 @@ To provision and run this application on an AWS EC2 instance:
 ## 👥 Contributors
 This project was developed to showcase scalable cloud architecture.
 * **Anik Basu** 
-
-**Pro-Tip for your Resume:** You can highlight this project with a bullet point emphasizing your cloud skills:
-> *Architected a cloud-native event platform on **AWS EC2**, utilizing **Boto3** to integrate **DynamoDB** for scalable NoSQL storage and **AWS SNS** for event-driven, real-time user notifications.*
